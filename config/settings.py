@@ -31,6 +31,9 @@ DEBUG = str_to_bool(os.getenv("DEBUG", "false"))
 
 ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS').split(',')
 
+DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+
 
 # Application definition
 
