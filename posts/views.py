@@ -46,6 +46,11 @@ class SyncPostsView(APIView):
     def post(self, request):
         access_token = settings.INSTAGRAM_ACCESS_TOKEN
         user_id = settings.INSTAGRAM_USER_ID
+        if not access_token or not user_id:
+            return Response(
+                {"detail": "Instagram credentials are not configured"},
+                status=status.HTTP_503_SERVICE_UNAVAILABLE,
+            )
 
         client = InstagramClient(access_token=access_token)
         service = InstagramService(client=client)
@@ -88,6 +93,11 @@ class CreateCommentView(APIView):
         serializer.is_valid(raise_exception=True)
 
         access_token = settings.INSTAGRAM_ACCESS_TOKEN
+        if not access_token:
+            return Response(
+                {"detail": "Instagram credentials are not configured"},
+                status=status.HTTP_503_SERVICE_UNAVAILABLE,
+            )
         client = InstagramClient(access_token=access_token)
         service = InstagramService(client=client)
 

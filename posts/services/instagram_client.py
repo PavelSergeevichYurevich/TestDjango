@@ -38,7 +38,10 @@ class InstagramClient:
                 "fields": self.DEFAULT_MEDIA_FIELDS,
             }
 
-        response = requests.get(url, params=params, timeout=self.timeout)
+        try:
+            response = requests.get(url, params=params, timeout=self.timeout)
+        except requests.RequestException as exc:
+            raise InstagramAPIError(f"Instagram request failed: {exc}") from exc
         self._handle_response_errors(response)
 
         return response.json()
@@ -54,7 +57,10 @@ class InstagramClient:
             "access_token": self.access_token,
         }
 
-        response = requests.post(url, data=payload, timeout=self.timeout)
+        try:
+            response = requests.post(url, data=payload, timeout=self.timeout)
+        except requests.RequestException as exc:
+            raise InstagramAPIError(f"Instagram request failed: {exc}") from exc
         self._handle_response_errors(response)
 
         return response.json()
